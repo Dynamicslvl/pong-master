@@ -19,14 +19,17 @@ public class PoolingSystem : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        for(int i = 0; i<6; i++)
+        
+    }
+    private void Start()
+    {
+        for (int i = 0; i < 6; i++)
         {
-            Balls.Add(Instantiate(BallPrefab, new Vector3(0, 0, 0), Quaternion.identity));
+            Balls.Add(Instantiate(BallPrefab, Vector3.zero, Quaternion.identity));
             Balls[i].SetActive(false);
         }
     }
-
-    public void GiveBall(Vector3 position)
+    public GameObject GiveBall(Vector3 position)
     {
         for(int i = 0; i<6; i++)
         {
@@ -35,9 +38,10 @@ public class PoolingSystem : MonoBehaviour
                 Balls[i].SetActive(true);
                 Balls[i].GetComponent<BallController>().Reset();
                 Balls[i].transform.position = position;
-                break;
+                return Balls[i];
             }
         }
+        return null;
     }
 
     public void RecoverBall()

@@ -22,34 +22,51 @@ public class LevelController : MonoBehaviour
         LoadLevel(1);
     }
     private Vector3 ballSpawnPosition;
-    private bool isHaveBall= false;
+    private GameObject newBall = null;
     private void Update()
     {
         //Updating Task
         task.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = taskComplete.ToString() + "/" + taskNumber.ToString();
         //Spawn ball
-        if (!isHaveBall)
+        if (newBall == null || newBall.activeSelf == false)
         {
-            isHaveBall = true;
-            PoolingSystem.instance.GiveBall(ballSpawnPosition);
+            newBall = PoolingSystem.instance.GiveBall(ballSpawnPosition);
         }
     }
     public void LoadLevel(int i)
     {
-        taskComplete = 0;
         gameContent = (GameObject) Resources.Load("Level" + i.ToString(), typeof(GameObject));
         Instantiate(gameContent, new Vector3(0, 0, 0), Quaternion.identity);
+        
         LevelContent levelContent = gameContent.GetComponent<LevelContent>();
+
+        //Reset number of completed tasks;
+        taskComplete = 0;
+
+        //Gamemode Text
         gameMode.text = System.Enum.GetName(typeof(GameMode), levelContent.gameMode).Replace("_", " ");
+        
+        //Level Difficulty
         levelDifficulty.text = System.Enum.GetName(typeof(LevelDifficulty), levelContent.levelDifficulty);
+        
+        //Level Text
         levelText.text = "LEVEL " + i.ToString();
+
+        //Ball Remain
         for(int j = 0; j<6; j++)
         {
             if(j < levelContent.numberOfBalls)ballsRemain.transform.GetChild(j).gameObject.SetActive(true);
             else ballsRemain.transform.GetChild(j).gameObject.SetActive(false);
         }
+
+        //Gamemode Icon
         task.transform.GetChild(1).gameObject.GetComponent<Image>().sprite = gameModeIcon[(int) levelContent.gameMode];
+        
+        //Tasks Count
         taskNumber = levelContent.numberOfTasks;
+
+        //Ball Spawn Positon
         ballSpawnPosition = levelContent.transform.GetChild(0).position;
+        PredictPathController.instance.spawnerPosition = ballSpawnPosition;
     }
 }
