@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PredictPathController : MonoBehaviour
+public class PredictPath : MonoBehaviour
 {
     public GameObject PointPrefab;
     public int numberOfPoints;
@@ -15,7 +15,6 @@ public class PredictPathController : MonoBehaviour
         GameMaster.LoadLevel += SetSpawnerPositionOnLoadLevel;
         GameMaster.PullBall += ShowPath;
         GameMaster.ShotBall += HidePath;
-        GameMaster.RestartLevel += HidePath;
         Points = new GameObject[numberOfPoints];
         for (int i = 0; i < numberOfPoints; i++)
         {
@@ -24,16 +23,17 @@ public class PredictPathController : MonoBehaviour
             Points[i].SetActive(false);
         }
     }
-    private void Update()
+    private void LateUpdate()
     {
         mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         for (int i = 0; i < numberOfPoints; i++)
         {
-            Points[i].transform.position = PointPosition((i + 1) * 0.05f);
+            Points[i].transform.position = PointPosition((i + 1) * 0.04f);
         }
     }
     public void SetSpawnerPositionOnLoadLevel()
     {
+        HidePath();
         spawnerPosition = LevelController.levelContent.transform.GetChild(0).position;
     }
     private void OnDestroy()
@@ -41,7 +41,6 @@ public class PredictPathController : MonoBehaviour
         GameMaster.LoadLevel -= SetSpawnerPositionOnLoadLevel;
         GameMaster.PullBall -= ShowPath;
         GameMaster.ShotBall -= HidePath;
-        GameMaster.RestartLevel -= HidePath;
     }
     public void ShowPath()
     {

@@ -12,7 +12,7 @@ public class LevelController : MonoBehaviour
 
     private void Start()
     {
-        LoadLevel(2);
+        LoadLevel(1);
         GameMaster.ShotBall += AddNewBall;
         GameMaster.RestartLevel += ReloadLevel;
     }
@@ -27,17 +27,19 @@ public class LevelController : MonoBehaviour
         if(levelState == LevelState.Win)
         {
             levelState = LevelState.WaitPrize;
-            this.Wait(2f, () =>
+            this.Wait(1.6f, () =>
             {
                 Debug.Log("Level Clear!");
                 GameMaster.Win?.Invoke();
+                if (level < 2)
+                    LoadLevel(level + 1);
+                else GameMaster.RestartLevel?.Invoke();
             });
         }
     }
     public void ReloadLevel()
     {
         StopAllCoroutines();
-        DestroyImmediate(contentPrefab);
         LoadLevel(level);
     }
     public void LoadLevel(int i)
@@ -47,6 +49,9 @@ public class LevelController : MonoBehaviour
 
         //Choose a level to load
         level = i;
+
+        //If exist contentPrefab, destroy it
+        if (contentPrefab != null) DestroyImmediate(contentPrefab);
 
         //Create levelPlay and its content data
         contentPrefab = (GameObject) Resources.Load("Level" + i.ToString(), typeof(GameObject));
@@ -66,7 +71,7 @@ public class LevelController : MonoBehaviour
 
     public void AddNewBall()
     {
-        if (levelState == LevelState.Playing)
+        if (levelState == LevelState.Playing || levelState == LevelState.WaitPrize)
         {
             StartCoroutine(CreateBall(0.5f));
         }

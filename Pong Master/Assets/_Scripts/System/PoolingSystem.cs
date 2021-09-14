@@ -27,6 +27,8 @@ public class PoolingSystem : MonoBehaviour
             Balls.Add(Instantiate(BallPrefab, Vector3.zero, Quaternion.identity));
             Balls[i].SetActive(false);
         }
+        //Recoverball on load
+        GameMaster.LoadLevel += RecoverBall;
     }
     public GameObject GiveBall(Vector3 position)
     {
@@ -35,12 +37,17 @@ public class PoolingSystem : MonoBehaviour
             if(Balls[i].activeSelf == false)
             {
                 Balls[i].SetActive(true);
-                Balls[i].GetComponent<BallController>().Reset();
+                Balls[i].GetComponent<Ball>().Reset();
                 Balls[i].transform.position = position;
                 return Balls[i];
             }
         }
         return null;
+    }
+
+    private void OnDisable()
+    {
+        GameMaster.LoadLevel -= RecoverBall;
     }
 
     public void RecoverBall()
