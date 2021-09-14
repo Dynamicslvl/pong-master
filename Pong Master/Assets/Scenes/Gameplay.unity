@@ -242,8 +242,7 @@ MonoBehaviour:
     type: 3}
   numberOfPoints: 20
   Points: []
-  basePosition: {x: 0, y: 0, z: 0}
-  mousePosition: {x: 0, y: 0, z: 0}
+  spawnerPosition: {x: 0, y: 0, z: 0}
   gravityScale: 3
 --- !u!1 &182268785
 GameObject:
@@ -303,8 +302,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: SKIP
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9042ce1239a136e438dab31122d95db6, type: 2}
-  m_sharedMaterial: {fileID: 6953331626289142149, guid: 9042ce1239a136e438dab31122d95db6,
+  m_fontAsset: {fileID: 11400000, guid: 77a8744a1651c384fb134555c2f487a0, type: 2}
+  m_sharedMaterial: {fileID: 7931327889405286693, guid: 77a8744a1651c384fb134555c2f487a0,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -784,7 +783,7 @@ GameObject:
   - component: {fileID: 575479841}
   - component: {fileID: 575479840}
   m_Layer: 5
-  m_Name: Level
+  m_Name: LevelNumber
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -802,7 +801,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 719361651}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -830,8 +829,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: LEVEL 1
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9042ce1239a136e438dab31122d95db6, type: 2}
-  m_sharedMaterial: {fileID: 6953331626289142149, guid: 9042ce1239a136e438dab31122d95db6,
+  m_fontAsset: {fileID: 11400000, guid: 77a8744a1651c384fb134555c2f487a0, type: 2}
+  m_sharedMaterial: {fileID: 7931327889405286693, guid: 77a8744a1651c384fb134555c2f487a0,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -949,17 +948,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba86f326580803645abe3fefe7c3f18a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameMode: {fileID: 1919710822}
-  task: {fileID: 988377194}
-  ballsRemain: {fileID: 758656502}
-  levelText: {fileID: 575479840}
-  levelDifficulty: {fileID: 1603610245}
-  gameModeIcon:
-  - {fileID: 21300000, guid: 9d44d7955b2ab2d4e9c8366f50771209, type: 3}
-  - {fileID: 21300000, guid: 7ecd247b963fdd94c9b4d1ace80c6ee0, type: 3}
-  - {fileID: 21300000, guid: e2ebdd31222802f448dbcbdd5845ffbb, type: 3}
-  gameContent: {fileID: 0}
-  taskNumber: 1
 --- !u!1 &719361647
 GameObject:
   m_ObjectHideFlags: 0
@@ -972,6 +960,8 @@ GameObject:
   - component: {fileID: 719361650}
   - component: {fileID: 719361649}
   - component: {fileID: 719361648}
+  - component: {fileID: 719361652}
+  - component: {fileID: 719361653}
   m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
@@ -1052,10 +1042,10 @@ RectTransform:
   m_Children:
   - {fileID: 1982239879}
   - {fileID: 1662556147}
-  - {fileID: 1919710821}
   - {fileID: 988377195}
   - {fileID: 758656503}
   - {fileID: 575479839}
+  - {fileID: 1919710821}
   - {fileID: 1603610244}
   - {fileID: 744067574}
   - {fileID: 461280296}
@@ -1067,6 +1057,43 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &719361652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 719361647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed05efa9cfa9b464a86772cea50c0926, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelTask: {fileID: 2037848688}
+  levelMode: {fileID: 1919710822}
+  levelNumber: {fileID: 575479840}
+  levelDifficulty: {fileID: 1603610245}
+--- !u!114 &719361653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 719361647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13cd96194df8a2b42902ee723aea0ccc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskImage: {fileID: 1608066667}
+  ballRemainer: {fileID: 758656502}
+  ballSprites:
+  - {fileID: 21300000, guid: bb857fb6a6e39a84b911778972f36fa4, type: 3}
+  - {fileID: 21300000, guid: 906bd549865caa548948b1ebfd5b4d6f, type: 3}
+  levelModeImages:
+  - {fileID: 21300000, guid: 9d44d7955b2ab2d4e9c8366f50771209, type: 3}
+  - {fileID: 21300000, guid: 7ecd247b963fdd94c9b4d1ace80c6ee0, type: 3}
+  - {fileID: 21300000, guid: e2ebdd31222802f448dbcbdd5845ffbb, type: 3}
 --- !u!1 &744067573
 GameObject:
   m_ObjectHideFlags: 0
@@ -1226,7 +1253,7 @@ GameObject:
   - component: {fileID: 758656505}
   - component: {fileID: 758656504}
   m_Layer: 5
-  m_Name: BallsRemain
+  m_Name: BallRemainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1250,11 +1277,11 @@ RectTransform:
   - {fileID: 39177786}
   - {fileID: 575252769}
   m_Father: {fileID: 719361651}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.0020751953, y: 700}
+  m_AnchoredPosition: {x: 0.001953125, y: 700}
   m_SizeDelta: {x: 0.0041503906, y: -1832.3384}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &758656504
@@ -1426,11 +1453,11 @@ RectTransform:
   - {fileID: 2037848687}
   - {fileID: 1608066668}
   m_Father: {fileID: 719361651}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.00012207031, y: 808.47}
+  m_AnchoredPosition: {x: 0, y: 808.47}
   m_SizeDelta: {x: -683.02325, y: -1850.0001}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &988377196
@@ -1627,7 +1654,7 @@ GameObject:
   - component: {fileID: 1603610246}
   - component: {fileID: 1603610245}
   m_Layer: 5
-  m_Name: Level Difficulty
+  m_Name: LevelDifficulty
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1673,8 +1700,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Training
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9042ce1239a136e438dab31122d95db6, type: 2}
-  m_sharedMaterial: {fileID: 6953331626289142149, guid: 9042ce1239a136e438dab31122d95db6,
+  m_fontAsset: {fileID: 11400000, guid: 77a8744a1651c384fb134555c2f487a0, type: 2}
+  m_sharedMaterial: {fileID: 7931327889405286693, guid: 77a8744a1651c384fb134555c2f487a0,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -2028,7 +2055,7 @@ GameObject:
   - component: {fileID: 1919710823}
   - component: {fileID: 1919710822}
   m_Layer: 5
-  m_Name: GameMode
+  m_Name: LevelMode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2046,7 +2073,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 719361651}
-  m_RootOrder: 2
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -2074,8 +2101,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: BEER PONG CUPS
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9042ce1239a136e438dab31122d95db6, type: 2}
-  m_sharedMaterial: {fileID: 6953331626289142149, guid: 9042ce1239a136e438dab31122d95db6,
+  m_fontAsset: {fileID: 11400000, guid: 77a8744a1651c384fb134555c2f487a0, type: 2}
+  m_sharedMaterial: {fileID: 7931327889405286693, guid: 77a8744a1651c384fb134555c2f487a0,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -2327,8 +2354,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 0/1
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9042ce1239a136e438dab31122d95db6, type: 2}
-  m_sharedMaterial: {fileID: 6953331626289142149, guid: 9042ce1239a136e438dab31122d95db6,
+  m_fontAsset: {fileID: 11400000, guid: 77a8744a1651c384fb134555c2f487a0, type: 2}
+  m_sharedMaterial: {fileID: 7931327889405286693, guid: 77a8744a1651c384fb134555c2f487a0,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}

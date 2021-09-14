@@ -11,7 +11,8 @@ public class PoolingSystem : MonoBehaviour
 
     private void Awake()
     {
-        if(instance == null)
+        #region SINGLETON
+        if (instance == null)
         {
             instance = this;
             DontDestroyOnLoad(this);
@@ -19,10 +20,8 @@ public class PoolingSystem : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
-    }
-    private void Start()
-    {
+        #endregion
+        //Init Pool
         for (int i = 0; i < 6; i++)
         {
             Balls.Add(Instantiate(BallPrefab, Vector3.zero, Quaternion.identity));

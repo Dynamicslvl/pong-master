@@ -4,25 +4,17 @@ using UnityEngine;
 
 public class PredictPathController : MonoBehaviour
 {
-    public static PredictPathController instance;
     public GameObject PointPrefab;
     public int numberOfPoints;
     [HideInInspector] public GameObject[] Points;
-    [HideInInspector] public Vector3 basePosition, mousePosition, spawnerPosition;
+    [HideInInspector] public static Vector3 basePosition, mousePosition;
+    [HideInInspector] public Vector3 spawnerPosition;
     [HideInInspector] public int gravityScale = 5;
-
-    private void Awake()
-    {
-        if(instance == null)
-        {
-            instance = this;
-        } else
-        {
-            Destroy(this);
-        }
-    }
     private void Start()
     {
+        GameMaster.LoadLevel += SetSpawnerPositionOnLoadLevel;
+        GameMaster.PullBall += ShowPath;
+        GameMaster.ShotBall += HidePath;
         Points = new GameObject[numberOfPoints];
         for (int i = 0; i < numberOfPoints; i++)
         {
@@ -39,8 +31,20 @@ public class PredictPathController : MonoBehaviour
             Points[i].transform.position = PointPosition((i + 1) * 0.05f);
         }
     }
+    public void SetSpawnerPositionOnLoadLevel()
+    {
+        spawnerPosition = LevelController.levelContent.transform.GetChild(0).position;
+    }
+    private void OnDestroy()
+    {
+        GameMaster.LoadLevel -= SetSpawnerPositionOnLoadLevel;
+        GameMaster.PullBall -= ShowPath;
+        GameMaster.ShotBall -= HidePath;
+    }
     public void ShowPath()
     {
+        gravityScale = 5;
+        basePosition = mousePosition;
         for (int i = 0; i < numberOfPoints; i++)
         {
             Points[i].SetActive(true);
