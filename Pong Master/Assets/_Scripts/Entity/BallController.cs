@@ -44,6 +44,10 @@ public class BallController : MonoBehaviour
             LevelController.taskComplete++;
             Destroy(collision.GetComponent<BoxCollider2D>());
             GameMaster.NewTaskComplete?.Invoke();
+            if(LevelController.taskComplete == LevelController.taskNumber)
+            {
+                LevelController.levelState = LevelState.Win;
+            }
             gameObject.SetActive(false);
         }
     }

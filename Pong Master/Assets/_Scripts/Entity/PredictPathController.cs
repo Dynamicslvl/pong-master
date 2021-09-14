@@ -15,6 +15,7 @@ public class PredictPathController : MonoBehaviour
         GameMaster.LoadLevel += SetSpawnerPositionOnLoadLevel;
         GameMaster.PullBall += ShowPath;
         GameMaster.ShotBall += HidePath;
+        GameMaster.RestartLevel += HidePath;
         Points = new GameObject[numberOfPoints];
         for (int i = 0; i < numberOfPoints; i++)
         {
@@ -40,6 +41,7 @@ public class PredictPathController : MonoBehaviour
         GameMaster.LoadLevel -= SetSpawnerPositionOnLoadLevel;
         GameMaster.PullBall -= ShowPath;
         GameMaster.ShotBall -= HidePath;
+        GameMaster.RestartLevel -= HidePath;
     }
     public void ShowPath()
     {

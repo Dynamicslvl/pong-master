@@ -4,8 +4,6 @@ using UnityEngine;
 
 public static class GameMaster
 {
-    public static int level;
-
     public delegate void GameEvent();
     public static GameEvent SelectChapter;
     public static GameEvent LoadLevel;

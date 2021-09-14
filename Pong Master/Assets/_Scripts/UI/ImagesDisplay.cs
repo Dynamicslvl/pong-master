@@ -35,9 +35,11 @@ public class ImagesDisplay : MonoBehaviour
     }
     public void ImagesSetupOnLoadLevel()
     {
+        StopAllCoroutines();
         taskImage.GetComponent<Image>().sprite = levelModeImages[(int)LevelController.levelContent.levelMode];
         for (int i = 0; i < 6; i++)
         {
+            ballImages[i].GetComponent<Image>().sprite = ballSprites[0];
             if (i < LevelController.levelContent.numberOfBalls) ballImages[i].SetActive(true);
             else ballImages[i].SetActive(false);
         }
@@ -49,7 +51,19 @@ public class ImagesDisplay : MonoBehaviour
             if(ballImages[i].GetComponent<Image>().sprite == ballSprites[0])
             {
                 ballImages[i].GetComponent<Image>().sprite = ballSprites[1];
-                break;
+                if(i == 0)
+                {
+                    LevelController.levelState = LevelState.Lose;
+                    this.Wait(5f, () =>
+                    {
+                        if(LevelController.levelState == LevelState.Lose)
+                        {
+                            Debug.Log("Level Failed!");
+                            GameMaster.Lose?.Invoke();
+                        }
+                    });
+                }
+                return;
             }
         }
     }

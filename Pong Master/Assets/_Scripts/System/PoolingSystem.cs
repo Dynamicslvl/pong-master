@@ -45,6 +45,9 @@ public class PoolingSystem : MonoBehaviour
 
     public void RecoverBall()
     {
-        //The ball just set to not active
+        for(int i = 0; i<6; i++)
+        {
+            Balls[i].SetActive(false);
+        }
     }
 }
