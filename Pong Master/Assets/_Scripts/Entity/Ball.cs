@@ -11,6 +11,7 @@ public class Ball : MonoBehaviour
     void Start()
     {
         Reset();
+        
     }
 
     public void Reset()
@@ -50,16 +51,13 @@ public class Ball : MonoBehaviour
         {
             LevelController.taskComplete++;
             GameMaster.NewTaskComplete?.Invoke();
-            if(LevelController.taskComplete == LevelController.taskNumber)
-            {
-                LevelController.levelState = LevelState.Win;
-            }
             gameObject.SetActive(false);
         }
     }
 
     void Release()
     {
+        LevelController.ballLeft--;
         release = true;
         body.isKinematic = false;
         coll2D.isTrigger = false;

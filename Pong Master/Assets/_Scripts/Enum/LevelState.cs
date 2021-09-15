@@ -6,6 +6,5 @@ public enum LevelState
 {
     Playing,
     Win,
-    WaitPrize,
     Lose,
 }

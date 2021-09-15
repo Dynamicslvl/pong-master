@@ -22,20 +22,23 @@ public class ImagesDisplay : MonoBehaviour
     {
         GameMaster.LoadLevel += ImagesSetupOnLoadLevel;
         GameMaster.ShotBall += BallRemainOnShotBall;
+        GameMaster.Lose += ImagesOnLevelEnd;
     }
     public void OnDisable()
     {
         GameMaster.LoadLevel -= ImagesSetupOnLoadLevel;
         GameMaster.ShotBall -= BallRemainOnShotBall;
+        GameMaster.Lose -= ImagesOnLevelEnd;
     }
     public void OnDestroy()
     {
         GameMaster.LoadLevel -= ImagesSetupOnLoadLevel;
         GameMaster.ShotBall -= BallRemainOnShotBall;
+        GameMaster.Lose -= ImagesOnLevelEnd;
     }
     public void ImagesSetupOnLoadLevel()
     {
-        StopAllCoroutines();
+        SetImagesActive(true);
         taskImage.GetComponent<Image>().sprite = levelModeImages[(int)LevelController.levelContent.levelMode];
         for (int i = 0; i < 6; i++)
         {
@@ -46,25 +49,15 @@ public class ImagesDisplay : MonoBehaviour
     }
     public void BallRemainOnShotBall()
     {
-        for(int i = LevelController.levelContent.numberOfBalls - 1; i>=0; i--)
-        {
-            if(ballImages[i].GetComponent<Image>().sprite == ballSprites[0])
-            {
-                ballImages[i].GetComponent<Image>().sprite = ballSprites[1];
-                if(i == 0)
-                {
-                    LevelController.levelState = LevelState.Lose;
-                    this.Wait(5f, () =>
-                    {
-                        if(LevelController.levelState == LevelState.Lose)
-                        {
-                            Debug.Log("Level Failed!");
-                            GameMaster.Lose?.Invoke();
-                        }
-                    });
-                }
-                return;
-            }
-        }
+        ballImages[LevelController.ballLeft].GetComponent<Image>().sprite = ballSprites[1];
+    }
+    public void ImagesOnLevelEnd()
+    {
+        SetImagesActive(false);
+    }
+    public void SetImagesActive(bool value)
+    {
+        taskImage.SetActive(value);
+        ballRemainer.SetActive(value);
     }
 }

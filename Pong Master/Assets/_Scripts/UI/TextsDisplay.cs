@@ -13,22 +13,39 @@ public class TextsDisplay : MonoBehaviour
     {
         GameMaster.LoadLevel += TextsSetup;
         GameMaster.NewTaskComplete += TextsSetup;
+        GameMaster.Lose += TextsOnLevelEnd;
     }
     public void OnDisable()
     {
         GameMaster.LoadLevel -= TextsSetup;
         GameMaster.NewTaskComplete -= TextsSetup;
+        GameMaster.Lose -= TextsOnLevelEnd;
     }
     public void OnDestroy()
     {
         GameMaster.LoadLevel -= TextsSetup;
         GameMaster.NewTaskComplete -= TextsSetup;
+        GameMaster.Lose -= TextsOnLevelEnd;
     }
     public void TextsSetup()
     {
+        SetTextsActive(true);
         levelTask.text = LevelController.taskComplete.ToString() + "/" + LevelController.taskNumber.ToString();
         levelMode.text = System.Enum.GetName(typeof(LevelMode), LevelController.levelContent.levelMode).Replace("_", " ");
         levelNumber.text = "LEVEL " + LevelController.level.ToString();
         levelDifficulty.text = System.Enum.GetName(typeof(LevelDifficulty), LevelController.levelContent.levelDifficulty);
+    }
+
+    public void TextsOnLevelEnd()
+    {
+        SetTextsActive(false);
+    }
+
+    public void SetTextsActive(bool value)
+    {
+        levelTask.gameObject.SetActive(value);
+        levelMode.gameObject.SetActive(value);
+        levelNumber.gameObject.SetActive(value);
+        levelDifficulty.gameObject.SetActive(value);
     }
 }

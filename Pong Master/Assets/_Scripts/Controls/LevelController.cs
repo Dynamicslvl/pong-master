@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class LevelController : MonoBehaviour
 {
-    [HideInInspector] public static int taskNumber = 1;
-    [HideInInspector] public static int taskComplete = 0;
+    [HideInInspector] public static int taskNumber, taskComplete;
+    [HideInInspector] public static int ballLeft;
     [HideInInspector] public static int level = 1;
     [HideInInspector] public static LevelState levelState;
     [HideInInspector] public static LevelContent levelContent;
@@ -15,18 +15,21 @@ public class LevelController : MonoBehaviour
         LoadLevel(1);
         GameMaster.ShotBall += AddNewBall;
         GameMaster.RestartLevel += ReloadLevel;
+        GameMaster.Lose += LevelEnd;
     }
     private void OnDestroy()
     {
         GameMaster.ShotBall -= AddNewBall;
         GameMaster.RestartLevel -= ReloadLevel;
+        GameMaster.Lose -= LevelEnd;
     }
     private GameObject contentPrefab;
     private void Update()
     {
-        if(levelState == LevelState.Win)
+        //WIN CONDITIONS
+        if(taskComplete == taskNumber && levelState != LevelState.Win)
         {
-            levelState = LevelState.WaitPrize;
+            levelState = LevelState.Win;
             this.Wait(1.6f, () =>
             {
                 Debug.Log("Level Clear!");
@@ -36,6 +39,26 @@ public class LevelController : MonoBehaviour
                 else GameMaster.RestartLevel?.Invoke();
             });
         }
+
+        //LOSE CONDITIONS
+        if(ballLeft == 0 && levelState == LevelState.Playing)
+        {
+            LevelController.levelState = LevelState.Lose;
+            this.Wait(5f, () =>
+            {
+                if (LevelController.levelState == LevelState.Lose)
+                {
+                    Debug.Log("Level Failed!");
+                    GameMaster.Lose?.Invoke();
+                }
+            });
+        }
+    }
+    public void LevelEnd()
+    {
+        StopAllCoroutines();
+        PoolingSystem.instance.RecoverBall();
+        if (contentPrefab != null) Destroy(contentPrefab);
     }
     public void ReloadLevel()
     {
@@ -51,7 +74,7 @@ public class LevelController : MonoBehaviour
         level = i;
 
         //If exist contentPrefab, destroy it
-        if (contentPrefab != null) DestroyImmediate(contentPrefab);
+        if (contentPrefab != null) Destroy(contentPrefab);
 
         //Create levelPlay and its content data
         contentPrefab = (GameObject) Resources.Load("Level" + i.ToString(), typeof(GameObject));
@@ -62,6 +85,9 @@ public class LevelController : MonoBehaviour
         taskComplete = 0;
         taskNumber = levelContent.numberOfTasks;
 
+        //Ball left
+        ballLeft = levelContent.numberOfBalls;
+
         //Add new ball immediately
         StartCoroutine(CreateBall(0f));
 
@@ -71,7 +97,7 @@ public class LevelController : MonoBehaviour
 
     public void AddNewBall()
     {
-        if (levelState == LevelState.Playing || levelState == LevelState.WaitPrize)
+        if (levelState != LevelState.Lose)
         {
             StartCoroutine(CreateBall(0.5f));
         }
