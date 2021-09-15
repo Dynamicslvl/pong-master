@@ -10,16 +10,19 @@ public class ButtonsController : MonoBehaviour
     {
         GameMaster.LoadLevel += ButtonsOnLoadLevel;
         GameMaster.Lose += ButtonsOnLevelEnd;
+        GameMaster.Win += ButtonsOnLevelEnd;
     }
     public void OnDisable()
     {
         GameMaster.LoadLevel -= ButtonsOnLoadLevel;
         GameMaster.Lose -= ButtonsOnLevelEnd;
+        GameMaster.Win -= ButtonsOnLevelEnd;
     }
     public void OnDestroy()
     {
         GameMaster.LoadLevel -= ButtonsOnLoadLevel;
         GameMaster.Lose -= ButtonsOnLevelEnd;
+        GameMaster.Win -= ButtonsOnLevelEnd;
     }
     public void ButtonsOnLoadLevel()
     {
@@ -38,7 +41,6 @@ public class ButtonsController : MonoBehaviour
     }
     public void RestartLevel()
     {
-        PoolingSystem.instance.RecoverBall();
         GameMaster.RestartLevel?.Invoke();
     }
 }

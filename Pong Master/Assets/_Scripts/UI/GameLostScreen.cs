@@ -40,4 +40,22 @@ public class GameLostScreen : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
+    public void RestartLevel()
+    {
+        Sequence sq = DOTween.Sequence();
+        sq.Append(replayButton.DOScale(Vector3.zero, 0.2f))
+          .Append(skipButton.DOScale(Vector3.zero, 0.2f)).AppendCallback(() =>
+          {
+              GameMaster.RestartLevel?.Invoke();
+          });
+    }
+    public void SkipLevel()
+    {
+        Sequence sq = DOTween.Sequence();
+        sq.Append(skipButton.DOScale(Vector3.zero, 0.2f))
+          .Append(replayButton.DOScale(Vector3.zero, 0.2f)).AppendCallback(() =>
+          {
+              GameMaster.SkipLevel?.Invoke();
+          });
+    }
 }

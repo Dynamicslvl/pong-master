@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class ImagesDisplay : MonoBehaviour
 {
@@ -23,18 +24,21 @@ public class ImagesDisplay : MonoBehaviour
         GameMaster.LoadLevel += ImagesSetupOnLoadLevel;
         GameMaster.ShotBall += BallRemainOnShotBall;
         GameMaster.Lose += ImagesOnLevelEnd;
+        GameMaster.Win += ImagesOnLevelEnd;
     }
     public void OnDisable()
     {
         GameMaster.LoadLevel -= ImagesSetupOnLoadLevel;
         GameMaster.ShotBall -= BallRemainOnShotBall;
         GameMaster.Lose -= ImagesOnLevelEnd;
+        GameMaster.Win -= ImagesOnLevelEnd;
     }
     public void OnDestroy()
     {
         GameMaster.LoadLevel -= ImagesSetupOnLoadLevel;
         GameMaster.ShotBall -= BallRemainOnShotBall;
         GameMaster.Lose -= ImagesOnLevelEnd;
+        GameMaster.Win -= ImagesOnLevelEnd;
     }
     public void ImagesSetupOnLoadLevel()
     {
@@ -49,7 +53,11 @@ public class ImagesDisplay : MonoBehaviour
     }
     public void BallRemainOnShotBall()
     {
-        ballImages[LevelController.ballLeft].GetComponent<Image>().sprite = ballSprites[1];
+        Sequence sq = DOTween.Sequence();
+        sq.Append(ballRemainer.transform.GetChild(LevelController.ballLeft).DOScale(Vector3.zero, 0.3f)).AppendCallback((() =>
+        {
+            ballImages[LevelController.ballLeft].GetComponent<Image>().sprite = ballSprites[1];
+        })).Append(ballRemainer.transform.GetChild(LevelController.ballLeft).DOScale(Vector3.one, 0.3f));
     }
     public void ImagesOnLevelEnd()
     {

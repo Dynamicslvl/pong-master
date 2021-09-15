@@ -14,18 +14,21 @@ public class TextsDisplay : MonoBehaviour
         GameMaster.LoadLevel += TextsSetup;
         GameMaster.NewTaskComplete += TextsSetup;
         GameMaster.Lose += TextsOnLevelEnd;
+        GameMaster.Win += TextsOnLevelEnd;
     }
     public void OnDisable()
     {
         GameMaster.LoadLevel -= TextsSetup;
         GameMaster.NewTaskComplete -= TextsSetup;
         GameMaster.Lose -= TextsOnLevelEnd;
+        GameMaster.Win -= TextsOnLevelEnd;
     }
     public void OnDestroy()
     {
         GameMaster.LoadLevel -= TextsSetup;
         GameMaster.NewTaskComplete -= TextsSetup;
         GameMaster.Lose -= TextsOnLevelEnd;
+        GameMaster.Win -= TextsOnLevelEnd;
     }
     public void TextsSetup()
     {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using DG.Tweening;
 
 public class Ball : MonoBehaviour
 {
@@ -11,7 +12,6 @@ public class Ball : MonoBehaviour
     void Start()
     {
         Reset();
-        
     }
 
     public void Reset()
@@ -37,6 +37,12 @@ public class Ball : MonoBehaviour
         if (Input.GetMouseButtonUp(0) && hold) Release();
     }
 
+    public void OnEnable()
+    {
+        transform.localScale = Vector3.zero;
+        transform.DOScale(Vector3.one, 0.2f);
+    }
+
     void FallOutside()
     {
         if(transform.position.y < -15f)
@@ -49,7 +55,6 @@ public class Ball : MonoBehaviour
     {
         if (collision.CompareTag("Cup"))
         {
-            LevelController.taskComplete++;
             GameMaster.NewTaskComplete?.Invoke();
             gameObject.SetActive(false);
         }

@@ -15,12 +15,16 @@ public class LevelController : MonoBehaviour
         LoadLevel(1);
         GameMaster.ShotBall += AddNewBall;
         GameMaster.RestartLevel += ReloadLevel;
+        GameMaster.SkipLevel += NextLevel;
+        GameMaster.Win += LevelEnd;
         GameMaster.Lose += LevelEnd;
     }
     private void OnDestroy()
     {
         GameMaster.ShotBall -= AddNewBall;
         GameMaster.RestartLevel -= ReloadLevel;
+        GameMaster.SkipLevel -= NextLevel;
+        GameMaster.Win -= LevelEnd;
         GameMaster.Lose -= LevelEnd;
     }
     private GameObject contentPrefab;
@@ -30,13 +34,10 @@ public class LevelController : MonoBehaviour
         if(taskComplete == taskNumber && levelState != LevelState.Win)
         {
             levelState = LevelState.Win;
-            this.Wait(1.6f, () =>
+            this.Wait(1f, () =>
             {
-                Debug.Log("Level Clear!");
+                //Debug.Log("Level Clear!");
                 GameMaster.Win?.Invoke();
-                if (level < 2)
-                    LoadLevel(level + 1);
-                else GameMaster.RestartLevel?.Invoke();
             });
         }
 
@@ -48,7 +49,7 @@ public class LevelController : MonoBehaviour
             {
                 if (LevelController.levelState == LevelState.Lose)
                 {
-                    Debug.Log("Level Failed!");
+                    //Debug.Log("Level Failed!");
                     GameMaster.Lose?.Invoke();
                 }
             });
@@ -64,6 +65,13 @@ public class LevelController : MonoBehaviour
     {
         StopAllCoroutines();
         LoadLevel(level);
+    }
+    public void NextLevel()
+    {
+        StopAllCoroutines();
+        if (level < 2)
+            LoadLevel(level + 1);
+        else GameMaster.RestartLevel?.Invoke();
     }
     public void LoadLevel(int i)
     {
@@ -97,7 +105,7 @@ public class LevelController : MonoBehaviour
 
     public void AddNewBall()
     {
-        if (levelState != LevelState.Lose)
+        if (ballLeft != 0)
         {
             StartCoroutine(CreateBall(0.5f));
         }
