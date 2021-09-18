@@ -15,6 +15,7 @@ public class PredictPath : MonoBehaviour
     {
         if(instance == null)
         {
+            instance = this;
             GameMaster.LoadLevel += SetSpawnerPositionOnLoadLevel;
             GameMaster.PullBall += ShowPath;
             GameMaster.ShotBall += HidePath;
