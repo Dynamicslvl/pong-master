@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 public class LevelController : MonoBehaviour
@@ -13,6 +14,7 @@ public class LevelController : MonoBehaviour
 
     private void Start()
     {
+        MenuController.instance.gameObject.SetActive(false);
         GameMaster.ShotBall += AddNewBall;
         GameMaster.RestartLevel += ReloadLevel;
         GameMaster.SkipLevel += NextLevel;
@@ -73,6 +75,15 @@ public class LevelController : MonoBehaviour
     public void LevelEnd()
     {
         StopAllCoroutines();
+        if(levelState == LevelState.Win)
+        {
+            GameManager.levelComplete = Mathf.Max(GameManager.levelComplete, level);
+            StringBuilder sb = new StringBuilder(GameManager.starsPerLevel);
+            GameManager.starClaim += (Mathf.Min(ballLeft + 1, 3) - (sb[level - 1] - '0'));
+            sb[level - 1] = (Mathf.Min(ballLeft + 1, 3)).ToString()[0];
+            GameManager.starsPerLevel = sb.ToString();
+            GameManager.SaveGame();
+        }
         PoolingSystem.instance.RecoverBall();
         if (contentPrefab != null) Destroy(contentPrefab);
     }
@@ -85,8 +96,9 @@ public class LevelController : MonoBehaviour
     {
         StopAllCoroutines();
         if (level < 2)
+        {
             LoadLevel(level + 1);
-        else GameMaster.RestartLevel?.Invoke();
+        } else GameMaster.RestartLevel?.Invoke();
     }
     bool isPaused = false;
     public void PauseLevel()

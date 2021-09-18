@@ -11,6 +11,8 @@ public static class GameMaster
     public static GameEvent PauseLevel;
     public static GameEvent ResumeLevel;
     public static GameEvent SkipLevel;
+    public static GameEvent SlotClick;
+    public static GameEvent TagClick;
     public static GameEvent SoundClick;
     public static GameEvent MusicClick;
 

@@ -3115,6 +3115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10cba4dd45d0dd142aa83f1980f12cc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelText: {fileID: 1711489533}
   rects:
   - {fileID: 488858225}
   - {fileID: 1110346019}

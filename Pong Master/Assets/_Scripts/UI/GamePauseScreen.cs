@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GamePauseScreen : MonoBehaviour
 {
+    public TextMeshProUGUI levelText;
     public List<RectTransform> rects = new List<RectTransform>();
     public void Awake()
     {
@@ -14,7 +16,8 @@ public class GamePauseScreen : MonoBehaviour
     }
     public void OnEnable()
     {
-        foreach(RectTransform rect in rects) rect.localScale = Vector2.zero;
+        levelText.text = "LEVEL " + LevelController.level.ToString("00");
+        foreach (RectTransform rect in rects) rect.localScale = Vector2.zero;
         Sequence sq = DOTween.Sequence();
         foreach (RectTransform rect in rects)
         {
@@ -45,6 +48,7 @@ public class GamePauseScreen : MonoBehaviour
     }
     public void LoadMenu()
     {
+        MenuController.instance.gameObject.SetActive(true);
         PoolingSystem.instance.RecoverBall();
         Time.timeScale = 1;
         SceneManager.LoadScene("Menu");

@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5be900bd00b58384b9c419008b107621, type: 3}
+  m_Name: DATA_BALL
+  m_EditorClassIdentifier: 
+  ballTypes:
+  - id: 0
+    isSelect: 1
+    sprite: {fileID: 21300000, guid: 2c8e9b7cedc5aaf4db383b987fc03f61, type: 3}
+  - id: 1
+    isSelect: 0
+    sprite: {fileID: 21300000, guid: 35b2c1f3320181d4e84f07dbcc385cda, type: 3}
+  - id: 2
+    isSelect: 0
+    sprite: {fileID: 21300000, guid: e9d7bf57cdb4a82439a38c9c38f2dc0e, type: 3}
+  - id: 3
+    isSelect: 0
+    sprite: {fileID: 21300000, guid: 5317ae534dbae8e478c6b3671081a1d7, type: 3}
+  - id: 4
+    isSelect: 0
+    sprite: {fileID: 21300000, guid: a71041dfe8fc9f24f9d0f2f79b226db6, type: 3}
+  - id: 5
+    isSelect: 0
+    sprite: {fileID: 21300000, guid: a0bca74cc3af2eb4da6136acdab4fd6b, type: 3}
+  - id: 6
+    isSelect: 0
+    sprite: {fileID: 21300000, guid: 880acba0426542945907b86a2d88a8c1, type: 3}
+  - id: 7
+    isSelect: 0
+    sprite: {fileID: 21300000, guid: 625524202433d2b468df1a16abf63ad7, type: 3}
+  - id: 8
+    isSelect: 0
+    sprite: {fileID: 21300000, guid: cd973af655a2ce441bbfea8d4d395727, type: 3}
+  - id: 9
+    isSelect: 0
+    sprite: {fileID: 21300000, guid: 5f1c97b99538f2b44bed4e0c17dd7f6c, type: 3}
+  - id: 10
+    isSelect: 0
+    sprite: {fileID: 21300000, guid: c6b2bca9c8360b04882015085cf44e11, type: 3}
+  - id: 11
+    isSelect: 0
+    sprite: {fileID: 21300000, guid: fb565064781c44d4387b1bcf699af326, type: 3}
+  - id: 12
+    isSelect: 0
+    sprite: {fileID: 21300000, guid: 57a24b0349603a343b27e33d1c1adefe, type: 3}
+  - id: 13
+    isSelect: 0
+    sprite: {fileID: 21300000, guid: 3a472b386bffadf4cbaf20522ff55e3a, type: 3}
+  - id: 14
+    isSelect: 0
+    sprite: {fileID: 21300000, guid: 8420e385db2197f46ad492192168af32, type: 3}
+  - id: 15
+    isSelect: 0
+    sprite: {fileID: 21300000, guid: 388701e513bda9c468aea979c74ec334, type: 3}
+  - id: 16
+    isSelect: 0
+    sprite: {fileID: 21300000, guid: dbbf91b5e13c6f14e83cbba3055b9c4c, type: 3}
+  - id: 17
+    isSelect: 0
+    sprite: {fileID: 21300000, guid: 60a0536d8c1b5ad4db1490fceaa431be, type: 3}

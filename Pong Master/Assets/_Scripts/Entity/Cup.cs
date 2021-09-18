@@ -7,6 +7,11 @@ using DG.Tweening;
 public class Cup : MonoBehaviour
 {
     bool isDestroy = false;
+
+    private void OnEnable()
+    {
+        //GetComponent<SpriteRenderer>().sprite = GameManager.instance.dataCup.cupTypes[GameManager.cupId].sprite;
+    }
     private void Update()
     {
         if (transform.position.y < -15f && LevelController.levelState == LevelState.Playing && !isDestroy)
