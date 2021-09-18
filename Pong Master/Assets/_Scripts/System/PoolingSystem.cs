@@ -7,7 +7,7 @@ public class PoolingSystem : MonoBehaviour
     public static PoolingSystem instance;
 
     public GameObject BallPrefab;
-    [HideInInspector] public List<GameObject> Balls = new List<GameObject>();
+    public List<GameObject> Balls = new List<GameObject>();
 
     private void Awake()
     {
@@ -16,19 +16,18 @@ public class PoolingSystem : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(this);
+            for (int i = 0; i < 6; i++)
+            {
+                Balls.Add(Instantiate(BallPrefab, Vector3.zero, Quaternion.identity));
+                Balls[i].SetActive(false);
+                DontDestroyOnLoad(Balls[i]);
+            }
+            GameMaster.LoadLevel += RecoverBall;
         } else
         {
             Destroy(gameObject);
         }
         #endregion
-        //Init Pool
-        for (int i = 0; i < 6; i++)
-        {
-            Balls.Add(Instantiate(BallPrefab, Vector3.zero, Quaternion.identity));
-            Balls[i].SetActive(false);
-        }
-        //Recoverball on load
-        GameMaster.LoadLevel += RecoverBall;
     }
     public GameObject GiveBall(Vector3 position)
     {

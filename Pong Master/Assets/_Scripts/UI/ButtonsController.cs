@@ -5,20 +5,20 @@ using UnityEngine;
 public class ButtonsController : MonoBehaviour
 {
     public GameObject[] buttons = new GameObject[3];
-    
-    public void OnEnable()
+
+    private void OnEnable()
     {
         GameMaster.LoadLevel += ButtonsOnLoadLevel;
         GameMaster.Lose += ButtonsOnLevelEnd;
         GameMaster.Win += ButtonsOnLevelEnd;
     }
-    public void OnDisable()
+    private void OnDisable()
     {
         GameMaster.LoadLevel -= ButtonsOnLoadLevel;
         GameMaster.Lose -= ButtonsOnLevelEnd;
         GameMaster.Win -= ButtonsOnLevelEnd;
     }
-    public void OnDestroy()
+    private void OnDestroy()
     {
         GameMaster.LoadLevel -= ButtonsOnLoadLevel;
         GameMaster.Lose -= ButtonsOnLevelEnd;
@@ -42,5 +42,10 @@ public class ButtonsController : MonoBehaviour
     public void RestartLevel()
     {
         GameMaster.RestartLevel?.Invoke();
+    }
+
+    public void PauseLevel()
+    {
+        GameMaster.PauseLevel?.Invoke();
     }
 }

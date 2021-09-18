@@ -9,15 +9,18 @@ public class LevelController : MonoBehaviour
     [HideInInspector] public static int level = 1;
     [HideInInspector] public static LevelState levelState;
     [HideInInspector] public static LevelContent levelContent;
+    private GameObject contentPrefab;
 
     private void Start()
     {
-        LoadLevel(1);
         GameMaster.ShotBall += AddNewBall;
         GameMaster.RestartLevel += ReloadLevel;
         GameMaster.SkipLevel += NextLevel;
         GameMaster.Win += LevelEnd;
         GameMaster.Lose += LevelEnd;
+        GameMaster.PauseLevel += PauseLevel;
+        GameMaster.ResumeLevel += ResumeLevel;
+        LoadLevel(1);
     }
     private void OnDestroy()
     {
@@ -26,33 +29,45 @@ public class LevelController : MonoBehaviour
         GameMaster.SkipLevel -= NextLevel;
         GameMaster.Win -= LevelEnd;
         GameMaster.Lose -= LevelEnd;
+        GameMaster.PauseLevel -= PauseLevel;
+        GameMaster.ResumeLevel -= ResumeLevel;
     }
-    private GameObject contentPrefab;
+   
     private void Update()
     {
         //WIN CONDITIONS
         if(taskComplete == taskNumber && levelState != LevelState.Win)
         {
             levelState = LevelState.Win;
-            this.Wait(1f, () =>
-            {
-                //Debug.Log("Level Clear!");
-                GameMaster.Win?.Invoke();
-            });
+            StartCoroutine(ActiveLevelWin(1));
         }
 
         //LOSE CONDITIONS
         if(ballLeft == 0 && levelState == LevelState.Playing)
         {
             LevelController.levelState = LevelState.Lose;
-            this.Wait(5f, () =>
-            {
-                if (LevelController.levelState == LevelState.Lose)
-                {
-                    //Debug.Log("Level Failed!");
-                    GameMaster.Lose?.Invoke();
-                }
-            });
+            StartCoroutine(ActiveLevelLose(5));
+        }
+    }
+    IEnumerator ActiveLevelWin(float waitTime)
+    {
+        while(waitTime > 0)
+        {
+            if (!isPaused) waitTime -= Time.deltaTime;
+            yield return null;
+        }
+        GameMaster.Win?.Invoke();
+    }
+    IEnumerator ActiveLevelLose(float waitTime)
+    {
+        while(waitTime > 0)
+        {
+            if (!isPaused) waitTime -= Time.deltaTime;
+            yield return null;
+        }
+        if (LevelController.levelState == LevelState.Lose)
+        {
+            GameMaster.Lose?.Invoke();
         }
     }
     public void LevelEnd()
@@ -72,6 +87,17 @@ public class LevelController : MonoBehaviour
         if (level < 2)
             LoadLevel(level + 1);
         else GameMaster.RestartLevel?.Invoke();
+    }
+    bool isPaused = false;
+    public void PauseLevel()
+    {
+        isPaused = true;
+        Time.timeScale = 0;
+    }
+    public void ResumeLevel()
+    {
+        isPaused = false;
+        Time.timeScale = 1;
     }
     public void LoadLevel(int i)
     {

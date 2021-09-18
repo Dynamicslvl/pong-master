@@ -8,6 +8,8 @@ public static class GameMaster
     public static GameEvent SelectChapter;
     public static GameEvent LoadLevel;
     public static GameEvent RestartLevel;
+    public static GameEvent PauseLevel;
+    public static GameEvent ResumeLevel;
     public static GameEvent SkipLevel;
     public static GameEvent SoundClick;
     public static GameEvent MusicClick;

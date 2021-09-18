@@ -4,25 +4,34 @@ using UnityEngine;
 
 public class PredictPath : MonoBehaviour
 {
+    private static PredictPath instance;
     public GameObject PointPrefab;
     public int numberOfPoints;
     [HideInInspector] public GameObject[] Points;
     [HideInInspector] public static Vector3 basePosition, mousePosition;
     [HideInInspector] public Vector3 spawnerPosition;
     [HideInInspector] public int gravityScale = 5;
-    private void Start()
+    private void Awake()
     {
-        GameMaster.LoadLevel += SetSpawnerPositionOnLoadLevel;
-        GameMaster.PullBall += ShowPath;
-        GameMaster.ShotBall += HidePath;
-        GameMaster.Lose += HidePath;
-        GameMaster.Win += HidePath;
-        Points = new GameObject[numberOfPoints];
-        for (int i = 0; i < numberOfPoints; i++)
+        if(instance == null)
         {
-            Points[i] = Instantiate(PointPrefab, transform.position, Quaternion.identity);
-            Points[i].transform.localScale = PointScale(i);
-            Points[i].SetActive(false);
+            GameMaster.LoadLevel += SetSpawnerPositionOnLoadLevel;
+            GameMaster.PullBall += ShowPath;
+            GameMaster.ShotBall += HidePath;
+            GameMaster.Lose += HidePath;
+            GameMaster.Win += HidePath;
+            DontDestroyOnLoad(this);
+            Points = new GameObject[numberOfPoints];
+            for (int i = 0; i < numberOfPoints; i++)
+            {
+                Points[i] = Instantiate(PointPrefab, transform.position, Quaternion.identity);
+                Points[i].transform.localScale = PointScale(i);
+                Points[i].SetActive(false);
+                DontDestroyOnLoad(Points[i]);
+            }
+        } else
+        {
+            Destroy(this);
         }
     }
     private void LateUpdate()
