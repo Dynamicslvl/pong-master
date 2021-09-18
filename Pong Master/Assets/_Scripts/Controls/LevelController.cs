@@ -95,7 +95,7 @@ public class LevelController : MonoBehaviour
     public void NextLevel()
     {
         StopAllCoroutines();
-        if (level < 2)
+        if (level < GameManager.levelMax)
         {
             LoadLevel(level + 1);
         } else GameMaster.RestartLevel?.Invoke();

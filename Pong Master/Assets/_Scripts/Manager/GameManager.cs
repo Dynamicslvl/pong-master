@@ -21,8 +21,8 @@ public class GameManager : MonoBehaviour
     #endregion
     public DataBall dataBall;
     public DataCup dataCup;
-    public static int starMax = 36, starClaim = 0;
-    public static int levelMax = 12, levelComplete = 0;
+    public static int starMax = 9, starClaim = 0;
+    public static int levelMax = 3, levelComplete = 0;
     public static string starsPerLevel = "";
     public static int money = 0;
     public static int cupId = 0, ballId = 0;
