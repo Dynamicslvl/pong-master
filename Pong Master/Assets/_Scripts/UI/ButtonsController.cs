@@ -41,11 +41,13 @@ public class ButtonsController : MonoBehaviour
     }
     public void RestartLevel()
     {
+        AudioManager.instance.Play("TapButton");
         GameMaster.RestartLevel?.Invoke();
     }
 
     public void PauseLevel()
     {
+        AudioManager.instance.Play("TapButton");
         GameMaster.PauseLevel?.Invoke();
     }
 }

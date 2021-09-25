@@ -19,10 +19,19 @@ public class MenuController : MonoBehaviour
         } else
         {
             Destroy(gameObject);
+            return;
         }
+        GameManager.LoadGame();
+        AudioManager.instance.Play("BGM");
+        rect[9].DOAnchorPosX(-125, 2f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutSine);
     }
     private void OnEnable()
     {
+        starNum = levelNum = 0;
+        this.Wait(0.01f, () =>
+        {
+            GetComponent<Canvas>().worldCamera = Camera.main;
+        });
         rect[0].anchoredPosition = new Vector2(-100, -120);
         rect[1].anchoredPosition = new Vector2(160, -120);
         rect[2].anchoredPosition = new Vector2(0, 200);
@@ -41,7 +50,7 @@ public class MenuController : MonoBehaviour
         rect[1].DOAnchorPos(new Vector2(-180, -120), 0.5f).SetEase(Ease.OutExpo);
         rect[2].DOAnchorPos(new Vector2(0, -585), 0.5f).SetEase(Ease.OutBack).OnComplete(() =>
         {
-            rect[2].GetChild(0).GetChild(0).GetComponent<RectTransform>().DOAnchorPosX(-125, 2f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutSine);
+            
             rect[3].DOScale(Vector2.one, 0.3f);
             rect[4].DOScale(Vector2.one, 0.3f).OnComplete(() => {
                 rect[5].DOScale(Vector2.one, 0.5f).SetEase(Ease.OutBack).OnComplete(() =>
@@ -60,18 +69,41 @@ public class MenuController : MonoBehaviour
     private int starNum, levelNum;
     private void Update()
     {
-        starNum = (int) Mathf.Round((starClaim.anchoredPosition.x + 200) / 200f * GameManager.starMax);
-        levelNum = (int)Mathf.Round((levelComplete.anchoredPosition.x + 200) / 200f * GameManager.levelMax);
-        starClaim.parent.parent.GetChild(0).GetComponent<TextMeshProUGUI>().text = "STAR: " + starNum.ToString() + "/" + GameManager.starMax.ToString();
-        levelComplete.parent.parent.GetChild(0).GetComponent<TextMeshProUGUI>().text = "LEVEL: " + levelNum.ToString() + "/" + GameManager.levelMax.ToString();
+        if(starNum < GameManager.starClaim || levelNum < GameManager.levelComplete || GameManager.starClaim == 0)
+        {
+            starNum = (int)Mathf.Round((starClaim.anchoredPosition.x + 200) / 200f * GameManager.starMax);
+            levelNum = (int)Mathf.Round((levelComplete.anchoredPosition.x + 200) / 200f * GameManager.levelMax);
+            starClaim.parent.parent.GetChild(0).GetComponent<TextMeshProUGUI>().text = "STAR: " + starNum.ToString() + "/" + GameManager.starMax.ToString();
+            levelComplete.parent.parent.GetChild(0).GetComponent<TextMeshProUGUI>().text = "LEVEL: " + levelNum.ToString() + "/" + GameManager.levelMax.ToString();
+        }
     }
     public void PlayButton()
     {
-        DOTween.PauseAll();
+        AudioManager.instance.Play("TapButton");
         SceneManager.LoadScene("Gameplay");
+        if (gameObject.activeSelf)
+        {
+            this.Wait(0.01f, () =>
+            {
+                DOTween.Kill(rect[5]);
+                gameObject.SetActive(false);
+            });
+        }
     }
     public void OpenShop()
     {
+        AudioManager.instance.Play("TapButton");
         transform.GetChild(10).gameObject.SetActive(true);
+    }
+    public void OpenChapter()
+    {
+        AudioManager.instance.Play("TapButton");
+        ChapterManager.instance.gameObject.SetActive(true);
+    }
+
+    public void OpenSetting()
+    {
+        AudioManager.instance.Play("TapButton");
+        transform.GetChild(11).gameObject.SetActive(true);
     }
 }

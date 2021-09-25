@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Ball
   - Cup
+  - Star
+  - CheckLose
   layers:
   - Default
   - TransparentFX

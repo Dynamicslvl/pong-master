@@ -35,7 +35,7 @@ public class TextsDisplay : MonoBehaviour
         SetTextsActive(true);
         levelTask.text = LevelController.taskComplete.ToString() + "/" + LevelController.taskNumber.ToString();
         levelMode.text = System.Enum.GetName(typeof(LevelMode), LevelController.levelContent.levelMode).Replace("_", " ");
-        levelNumber.text = "LEVEL " + LevelController.level.ToString();
+        levelNumber.text = "LEVEL " + GameManager.levelCurrent.ToString();
         levelDifficulty.text = System.Enum.GetName(typeof(LevelDifficulty), LevelController.levelContent.levelDifficulty);
     }
 

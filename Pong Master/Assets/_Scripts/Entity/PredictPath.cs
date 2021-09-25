@@ -35,10 +35,13 @@ public class PredictPath : MonoBehaviour
             Destroy(this);
         }
     }
-    private void LateUpdate()
+    private void Update()
     {
         mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        for (int i = 0; i < numberOfPoints; i++)
+    }
+    private void LateUpdate()
+    {
+        for(int i = 0; i < numberOfPoints; i++)
         {
             Points[i].transform.position = PointPosition((i + 1) * 0.04f);
         }
@@ -79,7 +82,7 @@ public class PredictPath : MonoBehaviour
     }
     Vector2 PointPosition(float t)
     {
-        Vector2 position = (Vector2)spawnerPosition + (Vector2)((basePosition - mousePosition) * 3) * t + 0.5f * (t * t) * Physics2D.gravity * gravityScale;
+        Vector2 position = (Vector2)spawnerPosition + (Vector2)((basePosition - mousePosition) * GameManager.Fpush) * t + 0.5f * (t * t) * Physics2D.gravity * gravityScale;
         return position;
     }
 }

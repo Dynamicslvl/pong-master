@@ -5,18 +5,25 @@ using DG.Tweening;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-public class GamePauseScreen : MonoBehaviour
+public class GamePauseScreen : Setting
 {
     public TextMeshProUGUI levelText;
     public List<RectTransform> rects = new List<RectTransform>();
-    public void Awake()
+    public override void Awake()
     {
+        GameMaster.MusicClick += UpdateState;
+        GameMaster.SoundClick += UpdateState;
         GameMaster.PauseLevel += Display;
         gameObject.SetActive(false);
     }
-    public void OnEnable()
+    public override void UpdateState()
     {
-        levelText.text = "LEVEL " + LevelController.level.ToString("00");
+        base.UpdateState();
+    }
+    public override void OnEnable()
+    {
+        base.OnEnable();
+        levelText.text = "LEVEL " + GameManager.levelCurrent.ToString("00");
         foreach (RectTransform rect in rects) rect.localScale = Vector2.zero;
         Sequence sq = DOTween.Sequence();
         foreach (RectTransform rect in rects)
@@ -25,8 +32,9 @@ public class GamePauseScreen : MonoBehaviour
         }
         sq.SetUpdate(true);
     }
-    public void OnDestroy()
+    public override void OnDestroy()
     {
+        base.OnDestroy();
         GameMaster.PauseLevel -= Display;
     }
     public void Display()
@@ -35,6 +43,7 @@ public class GamePauseScreen : MonoBehaviour
     }
     public void ResumeLevel()
     {
+        AudioManager.instance.Play("TapButton");
         Sequence sq = DOTween.Sequence();
         foreach (RectTransform rect in rects)
         {
@@ -48,9 +57,15 @@ public class GamePauseScreen : MonoBehaviour
     }
     public void LoadMenu()
     {
+        AudioManager.instance.Play("TapButton");
         MenuController.instance.gameObject.SetActive(true);
-        PoolingSystem.instance.RecoverBall();
+        PoolingSystem.instance.RecoverPool();
         Time.timeScale = 1;
         SceneManager.LoadScene("Menu");
+    }
+    public void LoadChapter()
+    {
+        AudioManager.instance.Play("TapButton");
+        ChapterManager.instance.gameObject.SetActive(true);
     }
 }

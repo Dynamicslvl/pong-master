@@ -2062,7 +2062,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 514263442}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 718606612}
+        m_MethodName: MusicButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &514263442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2984,7 +2995,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 703568670}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 718606612}
+        m_MethodName: SoundButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &703568670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3115,6 +3137,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10cba4dd45d0dd142aa83f1980f12cc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonsIcon:
+  - {fileID: 737829071}
+  - {fileID: 354668967}
+  sprButtons:
+  - {fileID: 21300000, guid: 09f1feadafb727b4eb154b9ca62349d6, type: 3}
+  - {fileID: 21300000, guid: 18323132fd7955940b0b2e2fc707188d, type: 3}
+  - {fileID: 21300000, guid: 611d7fd6ae7c36748a611ccec0e67337, type: 3}
+  - {fileID: 21300000, guid: ee0511ee67ffab7479af34ecceaf382e, type: 3}
   levelText: {fileID: 1711489533}
   rects:
   - {fileID: 488858225}
@@ -4097,9 +4127,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52a7d42e8bc5ae94eb90669d94b41ed9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BallPrefab: {fileID: 7151754547422693375, guid: e9839abeee42fe34e827b24530d32eb1,
+  ballPrefab: {fileID: 7151754547422693375, guid: e9839abeee42fe34e827b24530d32eb1,
     type: 3}
-  Balls: []
+  praise: {fileID: 3234661310788256643, guid: f0dc4beec258c3445a205ee5efe3c9b7, type: 3}
+  effectCollidePrefab: {fileID: 1103737231374484441, guid: 2e8c6417e3642db45bd611ef3d366337,
+    type: 3}
+  effectStarPrefab: {fileID: 5539380669740151966, guid: 3154afc5ccc00be40818303ab1e35bf3,
+    type: 3}
+  ballPool: []
+  praisePool: []
+  eCollidePool: []
+  eStarPool: []
 --- !u!1 &1184782228
 GameObject:
   m_ObjectHideFlags: 0
@@ -4113,7 +4151,7 @@ GameObject:
   - component: {fileID: 1184782231}
   - component: {fileID: 1184782230}
   m_Layer: 5
-  m_Name: LevelButton
+  m_Name: ChapterButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4181,7 +4219,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1184782231}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 718606612}
+        m_MethodName: LoadChapter
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1184782231
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -18,7 +18,8 @@ public class GameWonScreen : MonoBehaviour
     }
     public void OnEnable()
     {
-        levelText.text = "LEVEL " + LevelController.level.ToString("00");
+        AudioManager.instance.Play("Firework");
+        levelText.text = "LEVEL " + GameManager.levelCurrent.ToString("00");
     }
     public void OnDestroy()
     {
@@ -53,7 +54,9 @@ public class GameWonScreen : MonoBehaviour
         }
         for(int i = 0; i<=Mathf.Min(2, LevelController.ballLeft); i++)
         {
-            sq.Append(stars[i].DOScale(Vector3.one, 0.3f));
+            sq.Append(stars[i].DOScale(Vector3.one, 0.3f)).Join(transform.DOScale(Vector3.one, 0).OnComplete(() =>{
+                AudioManager.instance.Play("StarAppear");
+            }));
         }
     }
     public void Hide()
@@ -62,6 +65,7 @@ public class GameWonScreen : MonoBehaviour
     }
     public void NextLevel()
     {
+        AudioManager.instance.Play("TapButton");
         GameMaster.SkipLevel?.Invoke();
     }
 }

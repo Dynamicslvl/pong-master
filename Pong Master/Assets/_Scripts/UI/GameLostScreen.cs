@@ -20,7 +20,8 @@ public class GameLostScreen : MonoBehaviour
     }
     public void OnEnable()
     {
-        levelText.text = "LEVEL " + LevelController.level.ToString("00");
+        AudioManager.instance.Play("GameOver");
+        levelText.text = "LEVEL " + GameManager.levelCurrent.ToString("00");
     }
     public void OnDestroy()
     {
@@ -42,6 +43,7 @@ public class GameLostScreen : MonoBehaviour
     }
     public void RestartLevel()
     {
+        AudioManager.instance.Play("TapButton");
         Sequence sq = DOTween.Sequence();
         sq.Append(replayButton.DOScale(Vector3.zero, 0.2f))
           .Append(skipButton.DOScale(Vector3.zero, 0.2f)).AppendCallback(() =>
@@ -51,6 +53,7 @@ public class GameLostScreen : MonoBehaviour
     }
     public void SkipLevel()
     {
+        AudioManager.instance.Play("TapButton");
         Sequence sq = DOTween.Sequence();
         sq.Append(skipButton.DOScale(Vector3.zero, 0.2f))
           .Append(replayButton.DOScale(Vector3.zero, 0.2f)).AppendCallback(() =>

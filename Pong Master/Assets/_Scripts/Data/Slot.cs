@@ -7,16 +7,18 @@ public class Slot : MonoBehaviour
     public BallElements ballElements;
     public CupElements cupElements;
 
-    private void Awake()
+    private void OnEnable()
     {
         GameMaster.SlotClick += UpdateState;
+        UpdateState();
     }
-    private void OnDestroy()
+    private void OnDisable()
     {
         GameMaster.SlotClick -= UpdateState;
     }
     public void OnClick()
     {
+        AudioManager.instance.Play("TapButton");
         if (ballElements != null)
         {
             GameManager.ballId = ballElements.id;

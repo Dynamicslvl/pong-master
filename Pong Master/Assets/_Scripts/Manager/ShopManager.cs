@@ -21,7 +21,7 @@ public class ShopManager : MonoBehaviour
         for (int i = 0; i < 9; i++)
         {
             cupContent.transform.GetChild(i).GetChild(0).GetComponent<Image>().sprite = dataCup.cupTypes[i].sprite;
-            cupContent.transform.GetChild(i).GetChild(0).GetComponent<Image>().rectTransform.localScale = new Vector2(1.8f, 1.8f);
+            cupContent.transform.GetChild(i).GetChild(0).GetComponent<Image>().SetNativeSize();
             cupContent.transform.GetChild(i).GetComponent<Slot>().cupElements = dataCup.cupTypes[i];
             cupContent.transform.GetChild(i).GetComponent<Slot>().ballElements = null;
         }
@@ -29,7 +29,6 @@ public class ShopManager : MonoBehaviour
         {
             ballContent.transform.GetChild(i).GetChild(0).GetComponent<Image>().sprite = dataBall.ballTypes[i].sprite;
             ballContent.transform.GetChild(i).GetChild(0).GetComponent<Image>().SetNativeSize();
-            ballContent.transform.GetChild(i).GetChild(0).GetComponent<Image>().rectTransform.localScale = new Vector2(2.8f, 2.8f);
             ballContent.transform.GetChild(i).GetComponent<Slot>().ballElements = dataBall.ballTypes[i];
             ballContent.transform.GetChild(i).GetComponent<Slot>().cupElements = null;
         }
@@ -52,6 +51,7 @@ public class ShopManager : MonoBehaviour
 
     public void CloseShop()
     {
+        AudioManager.instance.Play("TapButton");
         gameObject.SetActive(false);
     }
 }

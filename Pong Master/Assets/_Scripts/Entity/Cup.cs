@@ -10,23 +10,25 @@ public class Cup : MonoBehaviour
 
     private void OnEnable()
     {
-        //GetComponent<SpriteRenderer>().sprite = GameManager.instance.dataCup.cupTypes[GameManager.cupId].sprite;
+        GetComponent<SpriteRenderer>().sprite = GameManager.instance.dataCup.cupTypes[GameManager.cupId].sprite;
     }
     private void Update()
     {
-        if (transform.position.y < -15f && LevelController.levelState == LevelState.Playing && !isDestroy)
-        {
-            //Debug.Log("Level failed because cup fall!");
-            LevelController.levelState = LevelState.Lose;
-            GameMaster.Lose?.Invoke();
-            gameObject.SetActive(false);
-        }
+        if (transform.position.y < -15f && LevelController.levelState == LevelState.Playing && !isDestroy) GameLost();
+        float angle = transform.rotation.eulerAngles.z + 90;
+        if (angle > 360) angle -= 360;
+        if ((angle <= 20 || angle >= 160) && !isDestroy) GameLost();
+    }
+    private void GameLost()
+    {
+        //Debug.Log("Level failed because cup fall!");
+        LevelController.levelState = LevelState.Lose;
+        GameMaster.Lose?.Invoke();
+        gameObject.SetActive(false);
     }
     private void OnDestroy()
     {
         StopAllCoroutines();
-        DOTween.Pause(GetComponent<SpriteRenderer>());
-        DOTween.Pause(transform);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -35,6 +37,7 @@ public class Cup : MonoBehaviour
             isDestroy = true;
             LevelController.taskComplete++;
             Destroy(GetComponent<BoxCollider2D>());
+            PoolingSystem.instance.GivePraise(transform.position);
             this.Wait(0.3f, () =>
             {
                 transform.DOScale(Vector3.zero, 0.5f).SetEase(Ease.InQuart);

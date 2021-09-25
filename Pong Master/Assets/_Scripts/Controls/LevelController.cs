@@ -7,14 +7,12 @@ public class LevelController : MonoBehaviour
 {
     [HideInInspector] public static int taskNumber, taskComplete;
     [HideInInspector] public static int ballLeft;
-    [HideInInspector] public static int level = 1;
     [HideInInspector] public static LevelState levelState;
     [HideInInspector] public static LevelContent levelContent;
     private GameObject contentPrefab;
 
     private void Start()
     {
-        MenuController.instance.gameObject.SetActive(false);
         GameMaster.ShotBall += AddNewBall;
         GameMaster.RestartLevel += ReloadLevel;
         GameMaster.SkipLevel += NextLevel;
@@ -22,7 +20,7 @@ public class LevelController : MonoBehaviour
         GameMaster.Lose += LevelEnd;
         GameMaster.PauseLevel += PauseLevel;
         GameMaster.ResumeLevel += ResumeLevel;
-        LoadLevel(1);
+        LoadLevel(GameManager.levelCurrent);
     }
     private void OnDestroy()
     {
@@ -77,27 +75,30 @@ public class LevelController : MonoBehaviour
         StopAllCoroutines();
         if(levelState == LevelState.Win)
         {
-            GameManager.levelComplete = Mathf.Max(GameManager.levelComplete, level);
+            GameManager.levelComplete = Mathf.Max(GameManager.levelComplete, GameManager.levelCurrent);
             StringBuilder sb = new StringBuilder(GameManager.starsPerLevel);
-            GameManager.starClaim += (Mathf.Min(ballLeft + 1, 3) - (sb[level - 1] - '0'));
-            sb[level - 1] = (Mathf.Min(ballLeft + 1, 3)).ToString()[0];
-            GameManager.starsPerLevel = sb.ToString();
+            if(Mathf.Min(ballLeft + 1, 3) > (sb[GameManager.levelCurrent - 1] - '0'))
+            {
+                GameManager.starClaim += (Mathf.Min(ballLeft + 1, 3) - (sb[GameManager.levelCurrent - 1] - '0'));
+                sb[GameManager.levelCurrent - 1] = (Mathf.Min(ballLeft + 1, 3)).ToString()[0];
+                GameManager.starsPerLevel = sb.ToString();
+            }
             GameManager.SaveGame();
         }
-        PoolingSystem.instance.RecoverBall();
+        PoolingSystem.instance.RecoverPool();
         if (contentPrefab != null) Destroy(contentPrefab);
     }
     public void ReloadLevel()
     {
         StopAllCoroutines();
-        LoadLevel(level);
+        LoadLevel(GameManager.levelCurrent);
     }
     public void NextLevel()
     {
         StopAllCoroutines();
-        if (level < GameManager.levelMax)
+        if (GameManager.levelCurrent < GameManager.levelMax)
         {
-            LoadLevel(level + 1);
+            LoadLevel(GameManager.levelCurrent + 1);
         } else GameMaster.RestartLevel?.Invoke();
     }
     bool isPaused = false;
@@ -117,13 +118,15 @@ public class LevelController : MonoBehaviour
         levelState = LevelState.Playing;
 
         //Choose a level to load
-        level = i;
+        if (i > GameManager.levelMax) i = GameManager.levelMax;
+        GameManager.levelCurrent = i;
 
         //If exist contentPrefab, destroy it
         if (contentPrefab != null) Destroy(contentPrefab);
 
         //Create levelPlay and its content data
         contentPrefab = (GameObject) Resources.Load("Level" + i.ToString(), typeof(GameObject));
+        if (contentPrefab == null) return;
         contentPrefab = Instantiate(contentPrefab, new Vector3(0, 0, 0), Quaternion.identity);
         levelContent = contentPrefab.GetComponent<LevelContent>();
 
@@ -141,7 +144,7 @@ public class LevelController : MonoBehaviour
         GameMaster.LoadLevel?.Invoke();
     }
 
-    public void AddNewBall()
+    private void AddNewBall()
     {
         if (ballLeft != 0)
         {
@@ -149,7 +152,7 @@ public class LevelController : MonoBehaviour
         }
     }
 
-    public IEnumerator CreateBall(float waitTime)
+    IEnumerator CreateBall(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
         PoolingSystem.instance.GiveBall(contentPrefab.transform.GetChild(0).position);
