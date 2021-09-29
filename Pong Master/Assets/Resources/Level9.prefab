@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelMode: 2
-  numberOfBalls: 4
+  numberOfBalls: 3
   levelDifficulty: 4
   numberOfTasks: 3
 --- !u!1001 &158233705868910902

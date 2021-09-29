@@ -21,7 +21,7 @@ public class ChapterManager : MonoBehaviour
         }
     }
     #endregion
-    public static int[] chapterLength = {6, 3};
+    public static int[] chapterLength = {8, 1};
     public GameObject content;
     public GameObject levelPanel, chapterPanel;
     public int chapterCurrent;
